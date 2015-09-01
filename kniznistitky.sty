@@ -1,0 +1,130 @@
+\ProvidesPackage{kniznistitky}
+\RequirePackage[cmyk,dvipsnames]{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage[code=Code39,H=5mm]{makebarcode}
+\RequirePackage[margin=0pt,paperwidth=8.27in,paperheight=11.69in,top=5mm,bottom=2mm]{geometry}
+\RequirePackage{ncccropbox}
+\RequirePackage{etoolbox}
+\newcommand\infobox[2]{\rotatebox{90}{\kern-18pt%
+		\colorbox{#1}{\vtop to 1.5em{\hbox to \dimexpr 30mm-1pt\relax{\sffamily\Large\hfill\textbf{#2}\hfill}}}}}%
+% \#1 Oddíl
+% \#2 Poddodíl
+% \#3 Počáteční písmena příjmení autora
+% \#4 Čárový kód
+% \#5 a \#5 Barvy
+\def\FirstLetter#1#2;{#1}%
+\newcommand\boxik[6]{%
+\def\Iniciala{\FirstLetter#3{};}%
+\cropbox[69.90mm][32mm]{%\kern 25mm
+%\kern-4mm%
+\hbox to 3mm{}%
+\infobox{#5}{\Iniciala}\infobox{#6}{#2}%\kern 2mm\vbox{%
+\parindent=0pt%
+\begin{tabular}{l}%
+\sffamily\large\bfseries//#1#2/#3\\%
+%\vfill%%
+\kern-3pt\barcode{#4}\\%
+{\small #4}\\%
+\end{tabular}%
+\hfill\null%
+%\bigskip
+%\vfill\null
+}\BreakBox\newline}
+
+\newcount\BoxBreak
+\def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
+\def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
+\def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
+\def\BreakBox#1{%
+	\advance\BoxBreak by 1\relax%
+	\if\modulo\BoxBreak30 #1\fi%
+}
+
+
+\def\EmptyBox{\cropbox[69.90mm][32mm]{}\BreakBox{ }}
+\newcommand\DefOddil[5]{%
+\csgdef{#1}##1##2{\boxik{#2}{#3}{##1}{##2}{#4}{#5}}%
+}
+\newcommand\oddil[3]{%
+\ifcsdef{#1}{%
+\csuse{#1}{#2}{#3}%
+}{\typeout{\unexpanded{#1}}}%
+}%
+
+\DefOddil{ČJaLIT 6}{ČJaLIT}{6}{violet}{violet}
+\DefOddil{ČJaLIT 2}{ČJaLIT}{2}{violet}{violet}
+\DefOddil{ČJaLIT 3}{ČJaLIT}{3}{violet}{violet}
+\DefOddil{ČJaLIT 4}{ČJaLIT}{4}{violet}{violet}
+\DefOddil{ČJaLIT 5}{ČJaLIT}{5}{violet}{violet}
+\DefOddil{ČJaLIT 7}{ČJaLIT}{7}{violet}{gray}
+\DefOddil{ČJaLIT 8}{ČJaLIT}{8}{violet}{gray}
+\DefOddil{ČJaLIT 9}{ČJaLIT}{9}{violet}{gray}
+\DefOddil{CJ 1}{CJ}{1}{gray}{violet}
+\DefOddil{CJ 2}{CJ}{2}{gray}{violet}
+\DefOddil{CJ 3}{CJ}{3}{gray}{violet}
+\DefOddil{CJ 4}{CJ}{4}{gray}{violet}
+\DefOddil{CJ 5}{CJ}{5}{gray}{violet}
+\DefOddil{CJ 6}{CJ}{6}{gray}{violet}
+\DefOddil{VV 1}{VV}{1}{yellow}{brown}
+\DefOddil{VV 2}{VV}{2}{yellow}{brown}
+\DefOddil{VV 3}{VV}{3}{yellow}{brown}
+\DefOddil{VV 4}{VV}{4}{yellow}{brown}
+\DefOddil{VV 5}{VV}{5}{yellow}{brown}
+\DefOddil{VV 6}{VV}{6}{yellow}{brown}
+\DefOddil{VV 7}{VV}{7}{yellow}{brown}
+\DefOddil{EKOL}{EKOL}{}{red}{green}
+\DefOddil{PED 1}{PED}{1}{yellow}{Orange}
+\DefOddil{PED 2}{PED}{2}{yellow}{Orange}
+\DefOddil{PED 3}{PED}{3}{yellow}{Orange}
+\DefOddil{PED 4}{PED}{4}{yellow}{Orange}
+\DefOddil{PED 5}{PED}{5}{yellow}{Orange}
+\DefOddil{PED 6}{PED}{6}{yellow}{Orange}
+\DefOddil{PED 7}{PED}{7}{yellow}{Orange}
+\DefOddil{PED 8}{PED}{8}{yellow}{Orange}
+\DefOddil{PED 9}{PED}{9}{yellow}{Orange}
+\DefOddil{PED 7}{PED}{7}{yellow}{Orange}
+\DefOddil{ZÁV-PRÁCE}{ZÁV-PRÁCE}{}{white}{white}
+\DefOddil{RJaLIT 1}{RJaLIT}{1}{white}{violet}
+\DefOddil{RJaLIT 2}{RJaLIT}{2}{white}{violet}
+\DefOddil{RJaLIT 3}{RJaLIT}{3}{white}{violet}
+\DefOddil{LEGISLATIVA}{LEGISLATIVA}{}{white}{white}
+\DefOddil{DĚJ-OV 1}{DĚJ-OV}{1}{green}{gray}
+\DefOddil{DĚJ-OV 2}{DĚJ-OV}{2}{green}{gray}
+\DefOddil{DĚJ-OV 3}{DĚJ-OV}{3}{green}{gray}
+\DefOddil{DĚJ-OV 4}{DĚJ-OV}{4}{green}{gray}
+\DefOddil{DĚJ-OV 5}{DĚJ-OV}{5}{green}{gray}
+\DefOddil{HV}{HV}{}{green}{brown}
+\DefOddil{BIOL}{BIOL}{}{red}{brown}
+\DefOddil{PSYCH 1}{PSYCH}{1}{red}{red}
+\DefOddil{PSYCH 2}{PSYCH}{2}{red}{red}
+\DefOddil{PSYCH 3}{PSYCH}{3}{red}{red}
+\DefOddil{PSYCH 4}{PSYCH}{4}{red}{red}
+\DefOddil{PSYCH 5}{PSYCH}{5}{red}{red}
+\DefOddil{PSYCH 6}{PSYCH}{6}{red}{red}
+\DefOddil{ENCYKLOP}{ENCYKLOP}{}{white}{white}
+\DefOddil{SPPG 1}{SPPG}{1}{violet}{red}
+\DefOddil{SPPG 2}{SPPG}{2}{violet}{red}
+\DefOddil{SPPG 3}{SPPG}{3}{violet}{red}
+\DefOddil{SPPG 4}{SPPG}{4}{violet}{red}
+\DefOddil{SPPG 5}{SPPG}{5}{violet}{red}
+\DefOddil{SPPG 6}{SPPG}{6}{violet}{red}
+\DefOddil{SPPG 7}{SPPG}{7}{violet}{red}
+\DefOddil{SPPG 8}{SPPG}{8}{violet}{red}
+\DefOddil{SPPG 9}{SPPG}{9}{violet}{red}
+\DefOddil{SPPG 10}{SPPG}{10}{violet}{red}
+\DefOddil{SPPG 11}{SPPG}{11}{violet}{red}
+\DefOddil{SPPG 12}{SPPG}{12}{violet}{red}
+\DefOddil{SPPG 13}{SPPG}{13}{violet}{red}
+\DefOddil{SPPG 14}{SPPG}{14}{violet}{red}
+\DefOddil{PŘÍRUČKA}{PŘÍRUČKA}{}{white}{white}
+\DefOddil{NÁB}{NÁB}{}{white}{blue}
+\DefOddil{MATEM}{MATEM}{}{green}{green}
+\DefOddil{DID.VT}{DID.VT}{}{white}{brown}
+\DefOddil{FILOZOF}{FILOZOF}{}{green}{white}
+\DefOddil{SOCIOL}{SOCIOL}{}{red}{red}
+\DefOddil{SOCIOL 1}{SOCIOL}{}{red}{red}
+\DefOddil{CHEM}{CHEM}{}{yellow}{yellow}
+\DefOddil{ZDRAV-BIOL}{ZDRAV-BIOL}{}{green}{purple}
+\DefOddil{ZEM}{ZEM}{}{white}{white}
+\DefOddil{VYUČ.TECHN}{VYUČ.TECHN}{}{brown}{brown}
+\DefOddil{DID.VT}{DID.VT}{}{white}{brown}

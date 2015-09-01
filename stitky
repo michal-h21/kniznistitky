@@ -1,0 +1,40 @@
+#!/usr/bin/env texlua
+
+function interp(s, tab)
+	  return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
+end
+local template = [[
+\documentclass{article}
+\usepackage[czech]{babel}
+\usepackage{fontspec}
+\usepackage{odsfile}
+%\usepackage{booktabs}
+\setmainfont{TeX Gyre Heros}
+\setsansfont{TeX Gyre Heros}
+\usepackage{kniznistitky}
+\pagestyle{empty}
+\parindent=0pt
+\begin{document}
+\newcommand\oddilek[3]{%
+\oddil{#2}{#3}{#1}%
+}
+\includespread[file={${input}}, rowtemplate={\oddil{-{1}}{-{2}}{-{3}}}]
+\end{document}
+]]
+
+if arg[1] then 
+	local input = arg[1]
+	local output = arg[2] or "stitky_" .. os.date("%Y_%m_%d")
+	local calltemp = "lualatex -jobname="..output
+	--print(input, output)
+	print(interp(template,{input = input}))
+	local lualatex = io.popen(calltemp,"w")
+	lualatex:write(interp(template,{input = input}))
+	lualatex:close()
+else
+	print([[
+stitky - tisk knižních štítků
+Použití:
+./stitky soubor.ods [jmenovystupu]
+]])
+end
