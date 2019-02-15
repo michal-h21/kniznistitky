@@ -18,7 +18,7 @@ local template = [[
 \newcommand\oddilek[3]{%
 \oddil{#2}{#3}{#1}%
 }
-\includespread[file={${input}}, rowtemplate={\oddil{-{1}}{-{2}}{-{3}}}]
+\includespread[file={${input}},range=a1:c108, rowtemplate={\oddil{-{1}}{-{2}}{-{3}}}]
 \end{document}
 ]]
 
