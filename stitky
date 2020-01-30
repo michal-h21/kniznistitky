@@ -31,6 +31,7 @@ if arg[1] then
 	local lualatex = io.popen(calltemp,"w")
 	lualatex:write(interp(template,{input = input}))
 	lualatex:close()
+  os.execute("xdg-open " .. output .. ".pdf")
 else
 	print([[
 stitky - tisk knižních štítků
