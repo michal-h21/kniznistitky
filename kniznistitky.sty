@@ -1,10 +1,12 @@
 \ProvidesPackage{kniznistitky}
-\RequirePackage[cmyk,dvipsnames]{xcolor}
+\RequirePackage[cmyk,dvipsnames,x11names,svgnames]{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage[code=Code39,H=5mm]{makebarcode}
 \RequirePackage[margin=0pt,paperwidth=8.27in,paperheight=11.69in,top=5mm,bottom=2mm]{geometry}
 \RequirePackage{ncccropbox}
 \RequirePackage{etoolbox}
+\RequirePackage{pict2e}
+\ExplSyntaxOn
 \newcommand\infobox[2]{\rotatebox{90}{\kern-18pt%
 		\colorbox{#1}{\vtop to 1.5em{\hbox to \dimexpr 30mm-1pt\relax{\sffamily\Large\hfill\textbf{#2}\hfill}}}}}%
 % \#1 Oddíl
@@ -18,7 +20,7 @@
 \cropbox[69.90mm][32mm]{%\kern 25mm
 %\kern-4mm%
 \hbox to 3mm{}%
-\infobox{#5}{\Iniciala}\infobox{#6}{#2}%\kern 2mm\vbox{%
+\infobox{#5}{\strut\Iniciala}\infobox{#6}{\strut#2}%\kern 2mm\vbox{%
 \parindent=0pt%
 \begin{tabular}{l}%
 \sffamily\large\bfseries//#1#2/#3\\%
@@ -30,6 +32,40 @@
 %\bigskip
 %\vfill\null
 }\BreakBox\newline}
+
+\newcommand\celetnaboxik[6]{%
+  % \typeout{****************** \detokenize{#1, #2, #3, #4, #5, #6}}%
+\def\Iniciala{\FirstLetter#3{};}%
+\cropbox[69.90mm][32mm]{\kern 2mm%
+\begin{tabular}{l}%
+\sffamily\bfseries//#1#2/#3\\%
+%\vfill%%
+\kern-3pt\barcode{#4}\\%
+{\small #4}\\%
+\end{tabular}%
+%\kern-4mm%
+% \hbox to 3mm{}%
+\begin{tabular}{l}%
+\infobox{\celetnabackground}{\strut%
+  \begingroup%
+  \setlength{\unitlength}{1cm}%
+  \begin{picture}(0,0)%
+    \put(0,0.15){\textcolor{\celetnakolecko}{\circle*{1em}}}%
+  \end{picture}%
+  \endgroup%
+}\\%
+\infobox{#5}{\strut#2}\\%
+\infobox{#6}{\strut#3}%\kern 2mm\vbox{%
+\end{tabular}%
+% \parindent=0pt%
+% \hfill\null%
+%\bigskip
+%\vfill\null
+}\BreakBox\newline\kern-2pt}%
+
+\newcommand\celetnainfobox[2]{%\rotatebox{90}{\kern-18pt%
+		\colorbox{#1}{\vtop to 1.2em{\hbox to \dimexpr 24mm-1pt\relax{\sffamily\Large\hfill\textbf{#2}\hfill}}}%
+}%
 
 \newcount\BoxBreak
 \def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
@@ -51,5 +87,20 @@
 }{\typeout{\unexpanded{#1}}}%
 }%
 
+\def\celetnabackground{white}
+\newcommand\celetna[4][\celetnabackground]{%
+  \begingroup%
+  \let\boxik\celetnaboxik%
+  \def\celetnakolecko{#1}%
+  \let\infobox\celetnainfobox%
+  \oddil{#2}{#3}{#4}%
+  \endgroup%
+}
+
+\AtBeginDocument{%
+\parindent=0pt
+}
+
+\ExplSyntaxOff
 \input{stitky-oddily}
 \endinput
