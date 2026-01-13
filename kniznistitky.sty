@@ -98,13 +98,15 @@
   \endgroup%
 }
 
-\newcommand\rettigova[4][]{%
-  \begingroup%
-  % ToDo: přidat podporu pro barevný kolečka v Rettigovce
-  \def\rettigovakolecko{#1}%
-  \oddil{#2}{#3}{#4}%
-  \endgroup%
-}
+% \newcommand\rettigova[4][]{%
+%   \begingroup%
+%   % ToDo: přidat podporu pro barevný kolečka v Rettigovce
+%   \def\rettigovakolecko{#1}%
+%   \oddil{#2}{#3}{#4}%
+%   \endgroup%
+% }
+
+\let\rettigova\celetna
 
 \AtBeginDocument{%
 \parindent=0pt
